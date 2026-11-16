@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Free AI-901 practice exam with explanations, in a testing-center style interface.">
+<meta property="og:title" content="AI-901 Practice Exam">
+<meta property="og:description" content="Free AI-901 practice exam with explanations.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%93%9D%3C/text%3E%3C/svg%3E">
+<title>AI-901 Practice Exam</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: exam-console — fixed top bar, question pane, fixed bottom nav, like a testing center UI */
+:root{
+  --bg:#f3f5f8;--panel:#ffffff;--fg:#1b2330;--muted:#5d6879;--line:#d6dce5;
+  --bar:#1f3a5f;--bar-fg:#ffffff;--accent:#0f6cbd;--accent-soft:#e3eefa;
+  --flag:#c25e00;--good:#1a7f37;--bad:#c4314b;--code:#f6f8fa;
+  --font:'Inter',system-ui,-apple-system,"Segoe UI",sans-serif;--mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161c;--panel:#1b2129;--fg:#e6eaf0;--muted:#9aa5b5;--line:#2e3742;
+  --bar:#16263d;--bar-fg:#e6eaf0;--accent:#4ea1f3;--accent-soft:#1d3048;
+  --flag:#f0a050;--good:#4cc46a;--bad:#ff6b81;--code:#0f1318;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161c;--panel:#1b2129;--fg:#e6eaf0;--muted:#9aa5b5;--line:#2e3742;
+  --bar:#16263d;--bar-fg:#e6eaf0;--accent:#4ea1f3;--accent-soft:#1d3048;
+  --flag:#f0a050;--good:#4cc46a;--bad:#ff6b81;--code:#0f1318;color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bar)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bar);color:var(--bar-fg);
+  display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;justify-content:space-between;
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top b{font-weight:600}
+.top .meta{display:flex;gap:18px;align-items:center;font-variant-numeric:tabular-nums;font-size:14px}
+.timer{font-family:var(--mono);font-size:15px;padding:3px 10px;border:1px solid rgba(255,255,255,.35);border-radius:4px}
+.timer.low{background:var(--bad);border-color:var(--bad)}
+.progress{height:4px;background:var(--line)}.progress>i{display:block;height:100%;background:var(--accent);transition:width .2s}
+main{max-width:920px;margin:0 auto;padding-block:24px 110px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:24px}
+h1{font-size:24px;margin:0 0 6px;text-wrap:balance}h2{font-size:18px;margin:0 0 12px}
+.muted{color:var(--muted)}
+.qhead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.04em}
+.qtext{font-size:16px;margin:0 0 18px;white-space:pre-wrap}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:4px;margin-bottom:8px;cursor:pointer;background:var(--panel)}
+.opt:hover{border-color:var(--accent)}.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt input{margin-top:3px;accent-color:var(--accent)}
+.opt.right{border-color:var(--good)}.opt.wrong{border-color:var(--bad)}
+table.yn{width:100%;border-collapse:collapse}table.yn th,table.yn td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+table.yn th{background:var(--accent-soft);font-weight:600}table.yn td.c{text-align:center;width:64px}
+pre.code{background:var(--code);border:1px solid var(--line);border-radius:4px;padding:14px;font-family:var(--mono);font-size:13px;overflow-x:auto;white-space:pre;line-height:1.9}
+.slot{display:inline-block;min-width:110px;padding:1px 8px;border:1px dashed var(--accent);border-radius:3px;color:var(--accent);background:var(--accent-soft);cursor:pointer;text-align:center}
+.slot.filled{border-style:solid;color:var(--fg)}.slot.active{outline:2px solid var(--accent)}
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media (max-width:640px){.dd{grid-template-columns:1fr}}
+.dd>div{min-width:0}.dd h3{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 8px}
+.tok{padding:9px 12px;border:1px solid var(--line);border-radius:4px;margin-bottom:6px;background:var(--panel);cursor:grab;font-family:var(--mono);font-size:13px}
+.tok:hover,.tok.picked{border-color:var(--accent);background:var(--accent-soft)}
+.tgt{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}.tgt span{font-size:13px;color:var(--muted)}
+.tgt .drop{min-height:40px;padding:8px 12px;border:1px dashed var(--accent);border-radius:4px;cursor:pointer;font-family:var(--mono);font-size:13px}
+.tgt .drop.filled{border-style:solid;background:var(--accent-soft)}.tgt .drop.over{background:var(--accent-soft)}
+.hint{font-size:13px;color:var(--muted);margin-top:10px}
+.foot{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+  padding-block:12px calc(12px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.foot .grp{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{font:inherit;font-weight:500;padding:9px 18px;border-radius:4px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer}
+button:hover{border-color:var(--accent)}button:focus-visible,.opt:focus-within,.slot:focus-visible,.tok:focus-visible,.drop:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+button:disabled{opacity:.45;cursor:not-allowed}
+label.flag{display:flex;gap:8px;align-items:center;cursor:pointer;font-weight:500}label.flag input{accent-color:var(--flag)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:14px}
+.cell{padding:10px;border:1px solid var(--line);border-radius:4px;cursor:pointer;font-size:13px;display:flex;justify-content:space-between;gap:6px;font-variant-numeric:tabular-nums}
+.cell:hover{border-color:var(--accent)}.cell.un{border-left:4px solid var(--bad)}.cell.fl .f{color:var(--flag)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.score{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end;margin:12px 0 20px}
+.score .n{font-size:48px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+.pass{color:var(--good)}.fail{color:var(--bad)}
+.bar{height:10px;background:var(--line);border-radius:5px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:var(--accent)}
+.dom{margin-bottom:14px}.dom div:first-child{display:flex;justify-content:space-between;font-size:14px}
+.exp{margin-top:14px;padding:12px 14px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:14px}
+.badge{font-size:12px;font-weight:600;padding:2px 8px;border-radius:10px;border:1px solid currentColor}
+ul.rules{padding-left:20px}ul.rules li{margin-bottom:4px}
+.stack{display:flex;flex-direction:column;gap:16px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="top" id="top">
+  <div><b>AI-901 Practice Exam</b> <span style="opacity:.75">· Azure AI Fundamentals · unofficial simulator</span></div>
+  <div class="meta" id="meta"></div>
+</div>
+<div class="progress" id="prog" hidden><i id="progi"></i></div>
+<main id="app"></main>
+<div class="foot" id="foot" hidden></div>
+
+<script>
+const EXAM_LEN=45, EXAM_MIN=45, PASS=700;
+let BANK=[], S=null, tick=null, reviewFilter='all', picked=null;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+async function load(){
+  try{const r=await fetch('questions.json');BANK=await r.json()}catch(e){$('#app').innerHTML='<div class="card">Could not load the question bank. Refresh to try again.</div>';return}
+  home();
+}
+
+function home(){
+  clearInterval(tick);$('#meta').innerHTML='';$('#foot').hidden=true;$('#prog').hidden=true;
+  const d1=BANK.filter(q=>q.d===1).length,d2=BANK.length-d1;
+  const types={single:'Multiple choice',multi:'Multiple response',yesno:'Yes / No series',drag:'Drag and drop / code completion'};
+  const counts={};BANK.forEach(q=>counts[q.t]=(counts[q.t]||0)+1);
+  $('#app').innerHTML=`<div class="stack">
+  <div class="card"><h1>Welcome to the AI-901 practice exam</h1>
+  <p class="muted">Microsoft Azure AI Fundamentals. This simulator mirrors the flow of a proctored certification exam: timed questions, Review Later flags, a review screen, and a scaled score report.</p>
+  <div class="score"><div><div class="n">${EXAM_LEN}</div><div class="muted">questions</div></div>
+  <div><div class="n">${EXAM_MIN}</div><div class="muted">minutes</div></div>
+  <div><div class="n">${PASS}</div><div class="muted">passing score / 1000</div></div>
+  <div><div class="n">${BANK.length}</div><div class="muted">questions in bank</div></div></div>
+  <h2>Instructions</h2><ul class="rules">
+  <li>Each attempt draws a new set from the bank, weighted like the real exam: Domain 1 about 42%, Domain 2 about 58%.</li>
+  <li>Use <b>Next</b> and <b>Previous</b> to move. Tick <b>Review later</b> to flag a question.</li>
+  <li>Open the <b>Review screen</b> any time to jump to unanswered or flagged items.</li>
+  <li>Multiple-response and drag-and-drop items need every part correct to score.</li>
+  <li>When time runs out, the exam ends and is scored automatically.</li></ul>
+  <label class="flag" style="margin:16px 0"><input type="checkbox" id="agree"> I understand this is an unofficial practice test, not affiliated with Microsoft, and contains no real exam content.</label>
+  <button class="pri" id="start" disabled>Start exam</button></div>
+  <div class="card"><h2>Question bank</h2>
+  <p class="muted">Identify AI concepts and capabilities: ${d1} · Implement AI solutions with Microsoft Foundry: ${d2}</p>
+  <div class="grid">${Object.entries(types).map(([k,v])=>`<div class="cell"><span>${v}</span><b>${counts[k]||0}</b></div>`).join('')}</div></div></div>`;
+  $('#agree').onchange=e=>$('#start').disabled=!e.target.checked;
+  $('#start').onclick=start;
+}
+
+function start(){
+  const n1=Math.round(EXAM_LEN*0.42);
+  const p1=shuffle(BANK.filter(q=>q.d===1)),p2=shuffle(BANK.filter(q=>q.d===2));
+  let set=[...p1.slice(0,n1),...p2.slice(0,EXAM_LEN-n1)];
+  if(set.length<EXAM_LEN)set=[...set,...shuffle([...p1.slice(n1),...p2.slice(EXAM_LEN-n1)])].slice(0,EXAM_LEN);
+  set=set.sort((a,b)=>a.d-b.d);
+  S={qs:set.map(q=>({q,ans:null,flag:false})),i:0,end:Date.now()+EXAM_MIN*60000,done:false};
+  clearInterval(tick);tick=setInterval(timer,1000);timer();
+  $('#prog').hidden=false;show();
+}
+
+function timer(){
+  if(!S||S.done)return;
+  const left=Math.max(0,S.end-Date.now()),m=Math.floor(left/60000),s=Math.floor(left%60000/1000);
+  const ans=S.qs.filter(x=>answered(x)).length;
+  $('#meta').innerHTML=`<span>Question ${S.i+1} of ${S.qs.length}</span><span>Answered ${ans}</span><span class="timer ${left<300000?'low':''}" aria-label="Time remaining">${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}</span>`;
+  $('#progi').style.width=((S.i+1)/S.qs.length*100)+'%';
+  if(left<=0)finish();
+}
+
+function answered(x){
+  const a=x.ans,t=x.q.t;if(a==null)return false;
+  if(t==='single')return a.length===1;
+  if(t==='multi')return a.length>0;
+  if(t==='yesno')return a.every(v=>v!==null);
+  if(t==='drag')return a.every(v=>v!==null);
+  return false;
+}
+
+function blankAns(q){
+  if(q.t==='yesno')return q.st.map(()=>null);
+  if(q.t==='drag')return q.bl.map(()=>null);
+  return [];
+}
+
+function show(){
+  picked=null;const x=S.qs[S.i],q=x.q;if(!x.ans)x.ans=blankAns(q);
+  const dom=q.d===1?'Identify AI concepts and capabilities':'Implement AI solutions by using Microsoft Foundry';
+  let body='';
+  if(q.t==='single'||q.t==='multi'){
+    const multi=q.t==='multi';
+    body=(multi?`<p class="hint" style="margin-top:-8px">Select ${q.n} answers.</p>`:'')+q.o.map((o,k)=>`<label class="opt ${x.ans.includes(k)?'sel':''}"><input type="${multi?'checkbox':'radio'}" name="o" id="o${k}" value="${k}" ${x.ans.includes(k)?'checked':''}><span>${esc(o)}</span></label>`).join('');
+  } else if(q.t==='yesno'){
+    body=`<div style="overflow-x:auto"><table class="yn"><tr><th>Statement</th><th class="c">Yes</th><th class="c">No</th></tr>${q.st.map((s,k)=>`<tr><td>${esc(s[0])}</td><td class="c"><input type="radio" name="y${k}" id="y${k}y" data-k="${k}" data-v="1" ${x.ans[k]===true?'checked':''} aria-label="Yes"></td><td class="c"><input type="radio" name="y${k}" id="y${k}n" data-k="${k}" data-v="0" ${x.ans[k]===false?'checked':''} aria-label="No"></td></tr>`).join('')}</table></div>`;
+  } else if(q.t==='drag'){
+    const pool=`<h3>${q.code?'Code segments':'Actions / values'}</h3>${q.tk.map((t,k)=>`<div class="tok" draggable="true" tabindex="0" data-t="${k}">${esc(t)}</div>`).join('')}`;
+    if(q.code){
+      let c=esc(q.code).replace(/\[(\d)\]/g,(m,n)=>{const i=+n-1,v=x.ans[i];return `<span class="slot ${v!=null?'filled':''}" tabindex="0" data-b="${i}">${v!=null?esc(q.tk[v]):q.bl[i]}</span>`});
+      body=`<pre class="code">${c}</pre><div class="dd"><div>${pool}</div><div><h3>How to answer</h3><p class="muted" style="font-size:14px">Drag a segment onto a box in the code, or click a segment and then click a box. Click a filled box to clear it. Each segment may be used once, more than once, or not at all.</p></div></div>`;
+    } else {
+      body=`<div class="dd"><div>${pool}</div><div><h3>Answer area</h3>${q.bl.map((b,i)=>{const v=x.ans[i];return `<div class="tgt"><span>${esc(b)}</span><div class="drop ${v!=null?'filled':''}" tabindex="0" data-b="${i}">${v!=null?esc(q.tk[v]):'&nbsp;'}</div></div>`}).join('')}</div></div><p class="hint">Drag, or click an item then click a box. Click a filled box to clear it.</p>`;
+    }
+  }
+  $('#app').innerHTML=`<div class="card"><div class="qhead"><span>${dom}</span><span>${({single:'Multiple choice',multi:'Multiple response',yesno:'Yes / No',drag:'Drag and drop'})[q.t]}</span></div><p class="qtext">${esc(q.q)}</p>${body}</div>`;
+  wire(x,q);
+  $('#foot').hidden=false;
+  $('#foot').innerHTML=`<label class="flag"><input type="checkbox" id="flg" ${x.flag?'checked':''}> Review later</label>
+   <div class="grp"><button id="prev" ${S.i===0?'disabled':''}>Previous</button><button id="next" class="pri">${S.i===S.qs.length-1?'Review':'Next'}</button><button id="rev">Review screen</button></div>`;
+  $('#flg').onchange=e=>{x.flag=e.target.checked};
+  $('#prev').onclick=()=>{S.i--;show();timer()};
+  $('#next').onclick=()=>{if(S.i===S.qs.length-1)review();else{S.i++;show();timer()}};
+  $('#rev').onclick=review;
+  window.scrollTo(0,0);timer();
+}
+
+function wire(x,q){
+  if(q.t==='single'||q.t==='multi'){
+    document.querySelectorAll('.opt input').forEach(inp=>inp.onchange=()=>{
+      const k=+inp.value;
+      if(q.t==='single')x.ans=[k];
+      else x.ans=inp.checked?[...new Set([...x.ans,k])]:x.ans.filter(v=>v!==k);
+      document.querySelectorAll('.opt').forEach((el,j)=>el.classList.toggle('sel',x.ans.includes(j)));timer();
+    });
+  } else if(q.t==='yesno'){
+    document.querySelectorAll('table.yn input').forEach(inp=>inp.onchange=()=>{x.ans[+inp.dataset.k]=inp.dataset.v==='1';timer()});
+  } else if(q.t==='drag'){
+    const place=(b,t)=>{x.ans[b]=t;show()};
+    document.querySelectorAll('.tok').forEach(el=>{
+      el.ondragstart=e=>e.dataTransfer.setData('text/plain',el.dataset.t);
+      el.onclick=()=>{picked=+el.dataset.t;document.querySelectorAll('.tok').forEach(t=>t.classList.toggle('picked',t===el))};
+      el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click()}};
+    });
+    document.querySelectorAll('[data-b]').forEach(el=>{
+      const b=+el.dataset.b;
+      el.ondragover=e=>{e.preventDefault();el.classList.add('over')};
+      el.ondragleave=()=>el.classList.remove('over');
+      el.ondrop=e=>{e.preventDefault();place(b,+e.dataTransfer.getData('text/plain'))};
+      el.onclick=()=>{if(picked!=null)place(b,picked);else if(x.ans[b]!=null)place(b,null)};
+      el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click()}};
+    });
+  }
+}
+
+function review(){
+  $('#meta').querySelector('span')&&timer();
+  const list=S.qs.map((x,i)=>({x,i})).filter(({x})=>reviewFilter==='all'||(reviewFilter==='un'&&!answered(x))||(reviewFilter==='fl'&&x.flag));
+  const un=S.qs.filter(x=>!answered(x)).length,fl=S.qs.filter(x=>x.flag).length;
+  $('#app').innerHTML=`<div class="card"><h1>Review your answers</h1>
+  <p class="muted">${un} unanswered · ${fl} marked for review. Select a question to return to it. Unanswered questions are scored as incorrect.</p>
+  <div class="tabs"><button data-f="all" class="${reviewFilter==='all'?'on':''}">All (${S.qs.length})</button><button data-f="un" class="${reviewFilter==='un'?'on':''}">Unanswered (${un})</button><button data-f="fl" class="${reviewFilter==='fl'?'on':''}">Review later (${fl})</button></div>
+  <div class="grid">${list.map(({x,i})=>`<div class="cell ${answered(x)?'':'un'} ${x.flag?'fl':''}" tabindex="0" data-i="${i}"><span>Question ${i+1}</span><span>${x.flag?'<span class="f">⚑</span> ':''}${answered(x)?'Answered':'Incomplete'}</span></div>`).join('')||'<p class="muted">No questions match this filter.</p>'}</div></div>`;
+  document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{reviewFilter=b.dataset.f;review()});
+  document.querySelectorAll('.cell[data-i]').forEach(c=>{c.onclick=()=>{S.i=+c.dataset.i;show()};c.onkeydown=e=>{if(e.key==='Enter')c.click()}});
+  $('#foot').hidden=false;
+  $('#foot').innerHTML=`<span class="muted" id="confirm">Finish only when you are ready. You can't change answers afterwards.</span><div class="grp"><button id="back">Return to question ${S.i+1}</button><button class="pri" id="fin">Finish exam</button></div>`;
+  $('#back').onclick=show;
+  $('#fin').onclick=()=>{
+    if($('#fin').dataset.c){finish();return}
+    $('#fin').dataset.c=1;$('#fin').textContent='Confirm finish';$('#confirm').textContent=un?`You still have ${un} unanswered. Select Confirm finish to end the exam.`:'Select Confirm finish to end the exam.';
+  };
+}
+
+function correct(x){
+  const q=x.q,a=x.ans;if(!answered(x))return false;
+  if(q.t==='single'||q.t==='multi')return a.length===q.a.length&&q.a.every(v=>a.includes(v));
+  if(q.t==='yesno')return q.st.every((s,k)=>a[k]===s[1]);
+  if(q.t==='drag')return q.a.every((v,k)=>a[k]===v);
+}
+
+function finish(){
+  S.done=true;clearInterval(tick);
+  const r=S.qs.map(correct),tot=r.filter(Boolean).length;
+  const score=Math.round(tot/S.qs.length*1000),ok=score>=PASS;
+  const dom=d=>{const idx=S.qs.map((x,i)=>i).filter(i=>S.qs[i].q.d===d);const c=idx.filter(i=>r[i]).length;return{c,n:idx.length,p:idx.length?Math.round(c/idx.length*100):0}};
+  const D1=dom(1),D2=dom(2);
+  const skills={};S.qs.forEach((x,i)=>{const s=x.q.s;skills[s]=skills[s]||{c:0,n:0};skills[s].n++;if(r[i])skills[s].c++});
+  $('#meta').innerHTML='<span>Exam complete</span>';$('#prog').hidden=true;
+  $('#app').innerHTML=`<div class="stack"><div class="card"><h1>Score report</h1>
+  <div class="score"><div><div class="n ${ok?'pass':'fail'}">${score}</div><div class="muted">your score / 1000</div></div>
+  <div><span class="badge ${ok?'pass':'fail'}">${ok?'PASS':'FAIL'}</span><div class="muted" style="margin-top:6px">Passing score: ${PASS} · ${tot} of ${S.qs.length} correct</div></div></div>
+  <h2>By domain</h2>
+  ${[['Identify AI concepts and capabilities',D1],['Implement AI solutions by using Microsoft Foundry',D2]].map(([n,v])=>`<div class="dom"><div><span>${n}</span><b>${v.c}/${v.n} · ${v.p}%</b></div><div class="bar"><i style="width:${v.p}%"></i></div></div>`).join('')}
+  <h2 style="margin-top:20px">By skill</h2>
+  ${Object.entries(skills).map(([n,v])=>{const p=Math.round(v.c/v.n*100);return `<div class="dom"><div><span>${esc(n)}</span><b>${v.c}/${v.n}</b></div><div class="bar"><i style="width:${p}%"></i></div></div>`}).join('')}
+  <p class="muted" style="font-size:13px">Practice scores are a simple percentage scaled to 1000. Real exam scoring is weighted and not published.</p></div>
+  <div class="card"><h2>Answer review</h2><div id="ar" class="stack"></div></div></div>`;
+  $('#ar').innerHTML=S.qs.map((x,i)=>reviewItem(x,i,r[i])).join('');
+  $('#foot').hidden=false;$('#foot').innerHTML=`<span class="muted">New attempts draw a fresh set of questions.</span><div class="grp"><button id="home">Home</button><button class="pri" id="again">Start new exam</button></div>`;
+  $('#home').onclick=home;$('#again').onclick=start;window.scrollTo(0,0);
+}
+
+function reviewItem(x,i,ok){
+  const q=x.q,a=x.ans||[];let body='';
+  if(q.t==='single'||q.t==='multi')body=q.o.map((o,k)=>`<div class="opt ${q.a.includes(k)?'right':a.includes(k)?'wrong':''}" style="cursor:default">${q.a.includes(k)?'✓':a.includes(k)?'✗':'·'} <span>${esc(o)}${a.includes(k)?' <span class="muted">(your answer)</span>':''}</span></div>`).join('');
+  if(q.t==='yesno')body=`<div style="overflow-x:auto"><table class="yn"><tr><th>Statement</th><th class="c">Correct</th><th class="c">Yours</th></tr>${q.st.map((s,k)=>`<tr><td>${esc(s[0])}</td><td class="c">${s[1]?'Yes':'No'}</td><td class="c ${a[k]===s[1]?'pass':'fail'}">${a[k]==null?'—':a[k]?'Yes':'No'}</td></tr>`).join('')}</table></div>`;
+  if(q.t==='drag')body=`<div style="overflow-x:auto"><table class="yn"><tr><th>Box</th><th>Correct</th><th>Yours</th></tr>${q.bl.map((b,k)=>`<tr><td>${esc(b)}</td><td>${esc(q.tk[q.a[k]])}</td><td class="${a[k]===q.a[k]?'pass':'fail'}">${a[k]==null?'—':esc(q.tk[a[k]])}</td></tr>`).join('')}</table></div>`;
+  return `<div><div class="qhead"><span>Question ${i+1} · ${esc(q.s)}</span><span class="${ok?'pass':'fail'}">${ok?'Correct':'Incorrect'}</span></div><p class="qtext">${esc(q.q)}</p>${q.code?`<pre class="code">${esc(q.code)}</pre>`:''}${body}<div class="exp">${esc(q.e)}</div></div>`;
+}
+
+load();
+</script>
+
+</html>
