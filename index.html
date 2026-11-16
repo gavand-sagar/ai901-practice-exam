@@ -87,11 +87,16 @@ ul.rules{padding-left:20px}ul.rules li{margin-bottom:4px}
 .thm{padding:5px 10px;font-size:13px;background:transparent;color:var(--bar-fg);border-color:rgba(255,255,255,.4)}
 .thm:hover{background:rgba(255,255,255,.12)}
 [hidden]{display:none!important}
+.cta{border-color:var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--panel) 70%)}
+.cta .row{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+a.btn{display:inline-block;font-weight:600;padding:9px 18px;border-radius:4px;background:var(--accent);color:#fff;text-decoration:none;white-space:nowrap}
+a.btn:hover{filter:brightness(1.08)}
+.top a.nav{color:var(--bar-fg);font-size:14px;text-decoration:none;opacity:.9}.top a.nav:hover{opacity:1;text-decoration:underline}
 </style>
 
 <div class="top" id="top">
   <div><b>AI-901 Practice Exam</b> <span style="opacity:.75">· Azure AI Fundamentals · unofficial simulator</span></div>
-  <div class="tr"><div class="meta" id="meta"></div><button id="theme" class="thm" type="button" aria-label="Switch theme"></button></div>
+  <div class="tr"><div class="meta" id="meta"></div><a class="nav" href="/course">Course</a><button id="theme" class="thm" type="button" aria-label="Switch theme"></button></div>
 </div>
 <div class="progress" id="prog" hidden><i id="progi"></i></div>
 <main id="app"></main>
@@ -129,6 +134,7 @@ function home(){
   <li>When time runs out, the exam ends and is scored automatically.</li></ul>
   <label class="flag" style="margin:16px 0"><input type="checkbox" id="agree"> I understand this is an unofficial practice test, not affiliated with Microsoft, and contains no real exam content.</label>
   <button class="pri" id="start" disabled>Start exam</button></div>
+  <div class="card cta"><div class="row"><div><span class="badge" style="color:var(--accent)">COMING SOON</span><h2 style="margin:8px 0 4px">AI-901 prep course: 8 one-hour sessions</h2><p class="muted" style="margin:0">Every official skill from the April 2026 outline, with hands-on Microsoft Foundry labs and a full mock exam.</p></div><a class="btn" href="/course">See the course</a></div></div>
   <div class="card"><h2>Question bank</h2>
   <p class="muted">Identify AI concepts and capabilities: ${d1} · Implement AI solutions with Microsoft Foundry: ${d2}</p>
   <div class="grid">${Object.entries(types).map(([k,v])=>`<div class="cell"><span>${v}</span><b>${counts[k]||0}</b></div>`).join('')}</div></div></div>`;
@@ -271,6 +277,7 @@ function finish(){
   <h2 style="margin-top:20px">By skill</h2>
   ${Object.entries(skills).map(([n,v])=>{const p=Math.round(v.c/v.n*100);return `<div class="dom"><div><span>${esc(n)}</span><b>${v.c}/${v.n}</b></div><div class="bar"><i style="width:${p}%"></i></div></div>`}).join('')}
   <p class="muted" style="font-size:13px">Practice scores are a simple percentage scaled to 1000. Real exam scoring is weighted and not published.</p></div>
+  ${ok?`<div class="card cta"><div class="row"><div><span class="badge" style="color:var(--accent)">COMING SOON</span><h2 style="margin:8px 0 4px">Go deeper with the AI-901 course</h2><p class="muted" style="margin:0">Passed the practice test? The course adds the Foundry labs and Python SDK practice the real exam expects.</p></div><a class="btn" href="/course">See the course</a></div></div>`:`<div class="card cta"><div class="row"><div><span class="badge" style="color:var(--accent)">COMING SOON</span><h2 style="margin:8px 0 4px">Not there yet? Take the AI-901 course</h2><p class="muted" style="margin:0">8 one-hour sessions that walk through every exam skill, with labs, exam traps and a full mock exam.</p></div><a class="btn" href="/course">See the course</a></div></div>`}
   <div class="card"><h2>Answer review</h2><div id="ar" class="stack"></div></div></div>`;
   $('#ar').innerHTML=S.qs.map((x,i)=>reviewItem(x,i,r[i])).join('');
   $('#foot').hidden=false;$('#foot').innerHTML=`<span class="muted">New attempts draw a fresh set of questions.</span><div class="grp"><button id="home">Home</button><button class="pri" id="again">Start new exam</button></div>`;

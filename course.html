@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="AI-901 Azure AI Fundamentals prep course: 8 one-hour sessions with Microsoft Foundry labs, mapped to the April 2026 skills outline.">
+<meta property="og:title" content="AI-901 Prep Course">
+<meta property="og:description" content="8 sessions, hands-on Foundry labs, full mock exam.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%93%9D%3C/text%3E%3C/svg%3E">
+<title>AI-901 Prep Course</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: exam-console — fixed top bar, question pane, fixed bottom nav, like a testing center UI */
+:root{
+  --bg:#f3f5f8;--panel:#ffffff;--fg:#1b2330;--muted:#5d6879;--line:#d6dce5;
+  --bar:#1f3a5f;--bar-fg:#ffffff;--accent:#0f6cbd;--accent-soft:#e3eefa;
+  --flag:#c25e00;--good:#1a7f37;--bad:#c4314b;--code:#f6f8fa;
+  --font:'Inter',system-ui,-apple-system,"Segoe UI",sans-serif;--mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161c;--panel:#1b2129;--fg:#e6eaf0;--muted:#9aa5b5;--line:#2e3742;
+  --bar:#16263d;--bar-fg:#e6eaf0;--accent:#4ea1f3;--accent-soft:#1d3048;
+  --flag:#f0a050;--good:#4cc46a;--bad:#ff6b81;--code:#0f1318;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161c;--panel:#1b2129;--fg:#e6eaf0;--muted:#9aa5b5;--line:#2e3742;
+  --bar:#16263d;--bar-fg:#e6eaf0;--accent:#4ea1f3;--accent-soft:#1d3048;
+  --flag:#f0a050;--good:#4cc46a;--bad:#ff6b81;--code:#0f1318;color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bar)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bar);color:var(--bar-fg);
+  display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;justify-content:space-between;
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top b{font-weight:600}
+.top .meta{display:flex;gap:18px;align-items:center;font-variant-numeric:tabular-nums;font-size:14px}
+.timer{font-family:var(--mono);font-size:15px;padding:3px 10px;border:1px solid rgba(255,255,255,.35);border-radius:4px}
+.timer.low{background:var(--bad);border-color:var(--bad)}
+.progress{height:4px;background:var(--line)}.progress>i{display:block;height:100%;background:var(--accent);transition:width .2s}
+main{max-width:920px;margin:0 auto;padding-block:24px 110px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:24px}
+h1{font-size:24px;margin:0 0 6px;text-wrap:balance}h2{font-size:18px;margin:0 0 12px}
+.muted{color:var(--muted)}
+.qhead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.04em}
+.qtext{font-size:16px;margin:0 0 18px;white-space:pre-wrap}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:4px;margin-bottom:8px;cursor:pointer;background:var(--panel)}
+.opt:hover{border-color:var(--accent)}.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt input{margin-top:3px;accent-color:var(--accent)}
+.opt.right{border-color:var(--good)}.opt.wrong{border-color:var(--bad)}
+table.yn{width:100%;border-collapse:collapse}table.yn th,table.yn td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+table.yn th{background:var(--accent-soft);font-weight:600}table.yn td.c{text-align:center;width:64px}
+pre.code{background:var(--code);border:1px solid var(--line);border-radius:4px;padding:14px;font-family:var(--mono);font-size:13px;overflow-x:auto;white-space:pre;line-height:1.9}
+.slot{display:inline-block;min-width:110px;padding:1px 8px;border:1px dashed var(--accent);border-radius:3px;color:var(--accent);background:var(--accent-soft);cursor:pointer;text-align:center}
+.slot.filled{border-style:solid;color:var(--fg)}.slot.active{outline:2px solid var(--accent)}
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media (max-width:640px){.dd{grid-template-columns:1fr}}
+.dd>div{min-width:0}.dd h3{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 8px}
+.tok{padding:9px 12px;border:1px solid var(--line);border-radius:4px;margin-bottom:6px;background:var(--panel);cursor:grab;font-family:var(--mono);font-size:13px}
+.tok:hover,.tok.picked{border-color:var(--accent);background:var(--accent-soft)}
+.tgt{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}.tgt span{font-size:13px;color:var(--muted)}
+.tgt .drop{min-height:40px;padding:8px 12px;border:1px dashed var(--accent);border-radius:4px;cursor:pointer;font-family:var(--mono);font-size:13px}
+.tgt .drop.filled{border-style:solid;background:var(--accent-soft)}.tgt .drop.over{background:var(--accent-soft)}
+.hint{font-size:13px;color:var(--muted);margin-top:10px}
+.foot{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+  padding-block:12px calc(12px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.foot .grp{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{font:inherit;font-weight:500;padding:9px 18px;border-radius:4px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer}
+button:hover{border-color:var(--accent)}button:focus-visible,.opt:focus-within,.slot:focus-visible,.tok:focus-visible,.drop:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+button:disabled{opacity:.45;cursor:not-allowed}
+label.flag{display:flex;gap:8px;align-items:center;cursor:pointer;font-weight:500}label.flag input{accent-color:var(--flag)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:14px}
+.cell{padding:10px;border:1px solid var(--line);border-radius:4px;cursor:pointer;font-size:13px;display:flex;justify-content:space-between;gap:6px;font-variant-numeric:tabular-nums}
+.cell:hover{border-color:var(--accent)}.cell.un{border-left:4px solid var(--bad)}.cell.fl .f{color:var(--flag)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.score{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end;margin:12px 0 20px}
+.score .n{font-size:48px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+.pass{color:var(--good)}.fail{color:var(--bad)}
+.bar{height:10px;background:var(--line);border-radius:5px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:var(--accent)}
+.dom{margin-bottom:14px}.dom div:first-child{display:flex;justify-content:space-between;font-size:14px}
+.exp{margin-top:14px;padding:12px 14px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:14px}
+.badge{font-size:12px;font-weight:600;padding:2px 8px;border-radius:10px;border:1px solid currentColor}
+ul.rules{padding-left:20px}ul.rules li{margin-bottom:4px}
+.stack{display:flex;flex-direction:column;gap:16px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.top .tr{display:flex;gap:14px;align-items:center}
+.thm{padding:5px 10px;font-size:13px;background:transparent;color:var(--bar-fg);border-color:rgba(255,255,255,.4)}
+.thm:hover{background:rgba(255,255,255,.12)}
+[hidden]{display:none!important}
+.cta{border-color:var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--panel) 70%)}
+.cta .row{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+a.btn{display:inline-block;font-weight:600;padding:9px 18px;border-radius:4px;background:var(--accent);color:#fff;text-decoration:none;white-space:nowrap}
+a.btn:hover{filter:brightness(1.08)}
+.top a.nav{color:var(--bar-fg);font-size:14px;text-decoration:none;opacity:.9}.top a.nav:hover{opacity:1;text-decoration:underline}
+</style>
+
+<div class="top" id="top">
+  <div><b>AI-901 Prep Course</b> <span style="opacity:.75">· Azure AI Fundamentals · unofficial prep course</span></div>
+  <div class="tr"><a class="nav" href="/">Practice exam</a><button id="theme" class="thm" type="button" aria-label="Switch theme"></button></div>
+</div>
+<style>
+.hero h1{font-size:30px;line-height:1.2}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0 4px}
+.facts div{border:1px solid var(--line);border-radius:6px;padding:12px;background:var(--bg)}.facts b{display:block;font-size:22px}
+ol.sess{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.ses{display:flex;gap:14px}.ses .num{flex:none;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700}
+.ses p{margin:2px 0 0;font-size:14px}.sh{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:0 8px}
+main a{color:var(--accent)}
+</style>
+<main><div class="stack">
+<div class="card hero"><span class="badge" style="color:var(--accent)">COMING SOON</span>
+<h1 style="margin-top:10px">Pass AI-901 with hands-on Microsoft Foundry practice</h1>
+<p class="muted">More than half of AI-901 is about building with Microsoft Foundry, not theory. This course covers every skill in the official outline (updated April 15, 2026), in 8 one-hour sessions plus a kickoff.</p>
+<div class="facts"><div><b>8 + 1</b><span class="muted">one-hour sessions</span></div><div><b>7</b><span class="muted">Foundry labs</span></div><div><b>2</b><span class="muted">exam domains covered</span></div><div><b>1</b><span class="muted">full timed mock exam</span></div></div>
+<p style="margin:16px 0 0">Enrollment isn't open yet. Meanwhile, <a href="/">take the free practice exam</a> to see where you stand.</p></div>
+<div class="card"><h2>How each session runs</h2><p class="muted" style="margin:0">15 min concepts &middot; 30 min live Foundry demo or lab &middot; 10 min exam traps &middot; 5 min practice questions.</p></div>
+<div class="card"><h2>Sessions</h2><ol class="sess"><li class="ses"><span class="num">0</span><div><div class="sh"><b>Kickoff and setup</b><span class="tag">Setup</span></div><p class="muted">Exam format and scoring, a free Azure account, a Foundry project, and a Python primer for reading SDK code.</p></div></li><li class="ses"><span class="num">1</span><div><div class="sh"><b>Responsible AI</b><span class="tag">Domain 1</span></div><p class="muted">The six principles, scenario drills, and content filters and safety settings in Foundry.</p></div></li><li class="ses"><span class="num">2</span><div><div class="sh"><b>Generative AI models and deployment</b><span class="tag">Domain 1</span></div><p class="muted">Tokens, embeddings and transformers; choosing a model; deployment types; temperature, top-p and max tokens.</p></div></li><li class="ses"><span class="num">3</span><div><div class="sh"><b>AI workloads tour</b><span class="tag">Domain 1</span></div><p class="muted">Generative and agentic AI, text analysis, speech, vision and information extraction: which workload fits which scenario.</p></div></li><li class="ses"><span class="num">4</span><div><div class="sh"><b>Generative AI apps and agents</b><span class="tag">Domain 2</span></div><p class="muted">Prompts, deploying and chatting in the portal, a Python chat client with the Foundry SDK, and a single-agent app.</p></div></li><li class="ses"><span class="num">5</span><div><div class="sh"><b>Text and speech</b><span class="tag">Domain 2</span></div><p class="muted">A text analysis app, spoken prompts with a multimodal model, and an app using Azure Speech in Foundry Tools.</p></div></li><li class="ses"><span class="num">6</span><div><div class="sh"><b>Vision and image generation</b><span class="tag">Domain 2</span></div><p class="muted">Images in prompts with a multimodal model, generating new images, and an app with vision capabilities.</p></div></li><li class="ses"><span class="num">7</span><div><div class="sh"><b>Information extraction</b><span class="tag">Domain 2</span></div><p class="muted">Azure Content Understanding for documents, forms, images, audio and video, plus an extraction app.</p></div></li><li class="ses"><span class="num">8</span><div><div class="sh"><b>Mock exam and revision</b><span class="tag">Review</span></div><p class="muted">A full timed mock, a walkthrough of the hardest questions, a last-48-hours checklist and exam-day routine.</p></div></li></ol>
+<p class="muted" style="font-size:13px;margin:16px 0 0">Sessions 1&ndash;3 cover Domain 1, Identify AI concepts and capabilities (40&ndash;45%). Sessions 4&ndash;7 cover Domain 2, Implement AI solutions by using Microsoft Foundry (55&ndash;60%).</p></div>
+<div class="card"><h2>Who it's for</h2><ul><li>Beginners in AI solution development</li><li>People with basic Python and some Azure familiarity, or ready to pick them up in session 0</li><li>Anyone moving from AI-900 to the new Foundry-based AI-901</li></ul></div>
+<p class="muted" style="font-size:13px">Unofficial course, not affiliated with or endorsed by Microsoft. Based on the public <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901">AI-901 study guide</a>.</p>
+</div></main>
+<script>
+const $=s=>document.querySelector(s);
+(function(){
+  const root=document.documentElement,btn=$('#theme');
+  const sys=()=>matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  let t=null;try{t=localStorage.getItem('theme')}catch(e){}
+  const apply=v=>{root.dataset.theme=v;btn.textContent=v==='dark'?'☀ Light':'☾ Dark'};
+  apply(t||sys());
+  btn.onclick=()=>{const v=root.dataset.theme==='dark'?'light':'dark';apply(v);try{localStorage.setItem('theme',v)}catch(e){}};
+})();
+</script>
+</body>
+</html>
