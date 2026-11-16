@@ -83,11 +83,15 @@ label.flag{display:flex;gap:8px;align-items:center;cursor:pointer;font-weight:50
 ul.rules{padding-left:20px}ul.rules li{margin-bottom:4px}
 .stack{display:flex;flex-direction:column;gap:16px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.top .tr{display:flex;gap:14px;align-items:center}
+.thm{padding:5px 10px;font-size:13px;background:transparent;color:var(--bar-fg);border-color:rgba(255,255,255,.4)}
+.thm:hover{background:rgba(255,255,255,.12)}
+[hidden]{display:none!important}
 </style>
 
 <div class="top" id="top">
   <div><b>AI-901 Practice Exam</b> <span style="opacity:.75">· Azure AI Fundamentals · unofficial simulator</span></div>
-  <div class="meta" id="meta"></div>
+  <div class="tr"><div class="meta" id="meta"></div><button id="theme" class="thm" type="button" aria-label="Switch theme"></button></div>
 </div>
 <div class="progress" id="prog" hidden><i id="progi"></i></div>
 <main id="app"></main>
@@ -281,6 +285,14 @@ function reviewItem(x,i,ok){
   return `<div><div class="qhead"><span>Question ${i+1} · ${esc(q.s)}</span><span class="${ok?'pass':'fail'}">${ok?'Correct':'Incorrect'}</span></div><p class="qtext">${esc(q.q)}</p>${q.code?`<pre class="code">${esc(q.code)}</pre>`:''}${body}<div class="exp">${esc(q.e)}</div></div>`;
 }
 
+(function(){
+  const root=document.documentElement,btn=$('#theme');
+  const sys=()=>matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  let t=null;try{t=localStorage.getItem('theme')}catch(e){}
+  const apply=v=>{root.dataset.theme=v;btn.textContent=v==='dark'?'☀ Light':'☾ Dark'};
+  apply(t||sys());
+  btn.onclick=()=>{const v=root.dataset.theme==='dark'?'light':'dark';apply(v);try{localStorage.setItem('theme',v)}catch(e){}};
+})();
 load();
 </script>
 
