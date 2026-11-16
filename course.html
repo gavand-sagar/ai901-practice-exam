@@ -9,23 +9,22 @@
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%93%9D%3C/text%3E%3C/svg%3E">
 <title>AI-901 Prep Course</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: exam-console — fixed top bar, question pane, fixed bottom nav, like a testing center UI */
 :root{
-  --bg:#f3f5f8;--panel:#ffffff;--fg:#1b2330;--muted:#5d6879;--line:#d6dce5;
-  --bar:#1f3a5f;--bar-fg:#ffffff;--accent:#0f6cbd;--accent-soft:#e3eefa;
-  --flag:#c25e00;--good:#1a7f37;--bad:#c4314b;--code:#f6f8fa;
-  --font:'Inter',system-ui,-apple-system,"Segoe UI",sans-serif;--mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --bg:#f3f2f1;--panel:#ffffff;--fg:#323130;--muted:#605e5c;--line:#c8c6c4;
+  --bar:#2a4464;--bar-fg:#ffffff;--accent:#2a4464;--accent-soft:#e8eef5;--side:#f3f2f1;--sel:#deecf9;--note:#fff8c5;--note-line:#e8d77a;
+  --flag:#c25e00;--good:#107c10;--bad:#a4262c;--code:#f6f8fa;
+  --font:"Segoe UI","Segoe UI Web (West European)",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;--mono:Consolas,'JetBrains Mono',ui-monospace,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#12161c;--panel:#1b2129;--fg:#e6eaf0;--muted:#9aa5b5;--line:#2e3742;
-  --bar:#16263d;--bar-fg:#e6eaf0;--accent:#4ea1f3;--accent-soft:#1d3048;
-  --flag:#f0a050;--good:#4cc46a;--bad:#ff6b81;--code:#0f1318;color-scheme:dark}}
+  --bg:#1b1a19;--panel:#252423;--fg:#f3f2f1;--muted:#c8c6c4;--line:#484644;
+  --bar:#1b1a19;--bar-fg:#f3f2f1;--accent:#8fb3dd;--accent-soft:#2b3a4c;--side:#201f1e;--sel:#2b3a4c;--note:#3d3820;--note-line:#7a6c2a;
+  --flag:#f0a050;--good:#6ccb5f;--bad:#f1707b;--code:#1b1a19;color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#12161c;--panel:#1b2129;--fg:#e6eaf0;--muted:#9aa5b5;--line:#2e3742;
-  --bar:#16263d;--bar-fg:#e6eaf0;--accent:#4ea1f3;--accent-soft:#1d3048;
-  --flag:#f0a050;--good:#4cc46a;--bad:#ff6b81;--code:#0f1318;color-scheme:dark}
+  --bg:#1b1a19;--panel:#252423;--fg:#f3f2f1;--muted:#c8c6c4;--line:#484644;
+  --bar:#1b1a19;--bar-fg:#f3f2f1;--accent:#8fb3dd;--accent-soft:#2b3a4c;--side:#201f1e;--sel:#2b3a4c;--note:#3d3820;--note-line:#7a6c2a;
+  --flag:#f0a050;--good:#6ccb5f;--bad:#f1707b;--code:#1b1a19;color-scheme:dark}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bar)}
@@ -92,6 +91,8 @@ ul.rules{padding-left:20px}ul.rules li{margin-bottom:4px}
 a.btn{display:inline-block;font-weight:600;padding:9px 18px;border-radius:4px;background:var(--accent);color:#fff;text-decoration:none;white-space:nowrap}
 a.btn:hover{filter:brightness(1.08)}
 .top a.nav{color:var(--bar-fg);font-size:14px;text-decoration:none;opacity:.9}.top a.nav:hover{opacity:1;text-decoration:underline}
+h1,h2{color:var(--accent);font-weight:600}.card{border-radius:8px}a.btn,button{border-radius:0}
+:root[data-theme="dark"] a.btn{color:#1b1a19}
 </style>
 
 <div class="top" id="top">
@@ -107,16 +108,22 @@ ol.sess{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
 .ses p{margin:2px 0 0;font-size:14px}.sh{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .tag{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:0 8px}
 main a{color:var(--accent)}
+.lp{margin:14px 0}.lp ol{margin:8px 0 0;padding-left:22px}.lp li{margin:3px 0;font-size:14px}
+ul.res{margin:0;padding-left:20px}ul.res li{margin:4px 0;font-size:14px}
 </style>
 <main><div class="stack">
 <div class="card hero"><span class="badge" style="color:var(--accent)">COMING SOON</span>
 <h1 style="margin-top:10px">Pass AI-901 with hands-on Microsoft Foundry practice</h1>
 <p class="muted">More than half of AI-901 is about building with Microsoft Foundry, not theory. This course covers every skill in the official outline (updated April 15, 2026), in 8 one-hour sessions plus a kickoff.</p>
 <div class="facts"><div><b>8 + 1</b><span class="muted">one-hour sessions</span></div><div><b>7</b><span class="muted">Foundry labs</span></div><div><b>2</b><span class="muted">exam domains covered</span></div><div><b>1</b><span class="muted">full timed mock exam</span></div></div>
-<p style="margin:16px 0 0">Enrollment isn't open yet. Meanwhile, <a href="/">take the free practice exam</a> to see where you stand.</p></div>
+<p style="margin:16px 0 0">Enrollment isn't open yet. Meanwhile, <a href="/">take the free practice exam</a> to see where you stand, or start with the <a href="#official">official Microsoft content</a>.</p></div>
 <div class="card"><h2>How each session runs</h2><p class="muted" style="margin:0">15 min concepts &middot; 30 min live Foundry demo or lab &middot; 10 min exam traps &middot; 5 min practice questions.</p></div>
 <div class="card"><h2>Sessions</h2><ol class="sess"><li class="ses"><span class="num">0</span><div><div class="sh"><b>Kickoff and setup</b><span class="tag">Setup</span></div><p class="muted">Exam format and scoring, a free Azure account, a Foundry project, and a Python primer for reading SDK code.</p></div></li><li class="ses"><span class="num">1</span><div><div class="sh"><b>Responsible AI</b><span class="tag">Domain 1</span></div><p class="muted">The six principles, scenario drills, and content filters and safety settings in Foundry.</p></div></li><li class="ses"><span class="num">2</span><div><div class="sh"><b>Generative AI models and deployment</b><span class="tag">Domain 1</span></div><p class="muted">Tokens, embeddings and transformers; choosing a model; deployment types; temperature, top-p and max tokens.</p></div></li><li class="ses"><span class="num">3</span><div><div class="sh"><b>AI workloads tour</b><span class="tag">Domain 1</span></div><p class="muted">Generative and agentic AI, text analysis, speech, vision and information extraction: which workload fits which scenario.</p></div></li><li class="ses"><span class="num">4</span><div><div class="sh"><b>Generative AI apps and agents</b><span class="tag">Domain 2</span></div><p class="muted">Prompts, deploying and chatting in the portal, a Python chat client with the Foundry SDK, and a single-agent app.</p></div></li><li class="ses"><span class="num">5</span><div><div class="sh"><b>Text and speech</b><span class="tag">Domain 2</span></div><p class="muted">A text analysis app, spoken prompts with a multimodal model, and an app using Azure Speech in Foundry Tools.</p></div></li><li class="ses"><span class="num">6</span><div><div class="sh"><b>Vision and image generation</b><span class="tag">Domain 2</span></div><p class="muted">Images in prompts with a multimodal model, generating new images, and an app with vision capabilities.</p></div></li><li class="ses"><span class="num">7</span><div><div class="sh"><b>Information extraction</b><span class="tag">Domain 2</span></div><p class="muted">Azure Content Understanding for documents, forms, images, audio and video, plus an extraction app.</p></div></li><li class="ses"><span class="num">8</span><div><div class="sh"><b>Mock exam and revision</b><span class="tag">Review</span></div><p class="muted">A full timed mock, a walkthrough of the hardest questions, a last-48-hours checklist and exam-day routine.</p></div></li></ol>
 <p class="muted" style="font-size:13px;margin:16px 0 0">Sessions 1&ndash;3 cover Domain 1, Identify AI concepts and capabilities (40&ndash;45%). Sessions 4&ndash;7 cover Domain 2, Implement AI solutions by using Microsoft Foundry (55&ndash;60%).</p></div>
+<div class="card" id="official"><h2>Official Microsoft content</h2>
+<p class="muted" style="margin-top:0">These free Microsoft Learn learning paths are the self-paced content behind Microsoft's official course <a href="https://learn.microsoft.com/en-us/training/courses/ai-901t00" target="_blank" rel="noopener">AI-901T00: Introduction to AI in Azure</a>. Our sessions follow the same topics and add exam practice.</p>
+<div class="lp"><div class="sh"><b>Learning path 1: <a href="https://learn.microsoft.com/en-us/training/paths/ai-concepts/" target="_blank" rel="noopener">AI concepts for developers and technology professionals</a></b><span class="tag">Domain 1 concepts</span></div><ol><li><a href="https://learn.microsoft.com/en-us/training/modules/get-started-ai-fundamentals/" target="_blank" rel="noopener">Introduction to AI concepts</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/fundamentals-generative-ai/" target="_blank" rel="noopener">Introduction to generative AI and agents</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/introduction-language/" target="_blank" rel="noopener">Introduction to natural language processing concepts</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/introduction-ai-speech/" target="_blank" rel="noopener">Introduction to AI speech concepts</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/introduction-computer-vision/" target="_blank" rel="noopener">Introduction to computer vision concepts</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/introduction-information-extraction/" target="_blank" rel="noopener">Introduction to AI-powered information extraction concepts</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/" target="_blank" rel="noopener">Introduction to retrieval-augmented generation concepts</a></li></ol></div><div class="lp"><div class="sh"><b>Learning path 2: <a href="https://learn.microsoft.com/en-us/training/paths/get-started-ai-apps-agents/" target="_blank" rel="noopener">Get started with AI applications and agents on Azure</a></b><span class="tag">Domain 2 hands-on</span></div><ol><li><a href="https://learn.microsoft.com/en-us/training/modules/get-started-with-ai-in-azure/" target="_blank" rel="noopener">Get started with AI in Azure</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/get-started-with-generative-ai-and-agents/" target="_blank" rel="noopener">Get started with generative AI and agents in Azure</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/get-started-text-analysis-azure/" target="_blank" rel="noopener">Get started with text analysis in Azure</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/get-started-speech-azure/" target="_blank" rel="noopener">Get started with speech in Azure</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/get-started-vision-azure/" target="_blank" rel="noopener">Get started with computer vision in Azure</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/get-started-information-extraction/" target="_blank" rel="noopener">Get started with AI-powered information extraction in Azure</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/get-started-foundry-iq/" target="_blank" rel="noopener">Get started with Microsoft Foundry IQ</a></li><li><a href="https://learn.microsoft.com/en-us/training/modules/get-started-foundry-voice-agents/" target="_blank" rel="noopener">Get started with voice agents in Microsoft Foundry</a></li></ol></div>
+<h3 style="margin:18px 0 6px;font-size:15px">More official resources</h3><ul class="res"><li><a href="https://learn.microsoft.com/en-us/training/courses/ai-901t00" target="_blank" rel="noopener">Course AI-901T00: Introduction to AI in Azure</a> <span class="muted">· Microsoft's official 1-day instructor-led course</span></li><li><a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901" target="_blank" rel="noopener">AI-901 study guide</a> <span class="muted">· Skills measured as of April 15, 2026</span></li><li><a href="https://aiskillsnavigator.microsoft.com/credentials/cert-83587e0a0754cfee561ade3e27d9fa1cdaf15ae03be52d2413b2b858d1b4eda4" target="_blank" rel="noopener">Free practice assessment</a> <span class="muted">· On AI Skills Navigator, sign-in required</span></li><li><a href="https://aka.ms/examdemo" target="_blank" rel="noopener">Exam sandbox</a> <span class="muted">· Try the real exam interface</span></li><li><a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/ai-901/" target="_blank" rel="noopener">AI-901 exam page</a> <span class="muted">· Scheduling, price and languages</span></li></ul></div>
 <div class="card"><h2>Who it's for</h2><ul><li>Beginners in AI solution development</li><li>People with basic Python and some Azure familiarity, or ready to pick them up in session 0</li><li>Anyone moving from AI-900 to the new Foundry-based AI-901</li></ul></div>
 <p class="muted" style="font-size:13px">Unofficial course, not affiliated with or endorsed by Microsoft. Based on the public <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901">AI-901 study guide</a>.</p>
 </div></main>

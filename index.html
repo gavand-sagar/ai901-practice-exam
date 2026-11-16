@@ -9,23 +9,22 @@
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%93%9D%3C/text%3E%3C/svg%3E">
 <title>AI-901 Practice Exam</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: exam-console — fixed top bar, question pane, fixed bottom nav, like a testing center UI */
 :root{
-  --bg:#f3f5f8;--panel:#ffffff;--fg:#1b2330;--muted:#5d6879;--line:#d6dce5;
-  --bar:#1f3a5f;--bar-fg:#ffffff;--accent:#0f6cbd;--accent-soft:#e3eefa;
-  --flag:#c25e00;--good:#1a7f37;--bad:#c4314b;--code:#f6f8fa;
-  --font:'Inter',system-ui,-apple-system,"Segoe UI",sans-serif;--mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --bg:#f3f2f1;--panel:#ffffff;--fg:#323130;--muted:#605e5c;--line:#c8c6c4;
+  --bar:#2a4464;--bar-fg:#ffffff;--accent:#2a4464;--accent-soft:#e8eef5;--side:#f3f2f1;--sel:#deecf9;--note:#fff8c5;--note-line:#e8d77a;
+  --flag:#c25e00;--good:#107c10;--bad:#a4262c;--code:#f6f8fa;
+  --font:"Segoe UI","Segoe UI Web (West European)",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;--mono:Consolas,'JetBrains Mono',ui-monospace,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#12161c;--panel:#1b2129;--fg:#e6eaf0;--muted:#9aa5b5;--line:#2e3742;
-  --bar:#16263d;--bar-fg:#e6eaf0;--accent:#4ea1f3;--accent-soft:#1d3048;
-  --flag:#f0a050;--good:#4cc46a;--bad:#ff6b81;--code:#0f1318;color-scheme:dark}}
+  --bg:#1b1a19;--panel:#252423;--fg:#f3f2f1;--muted:#c8c6c4;--line:#484644;
+  --bar:#1b1a19;--bar-fg:#f3f2f1;--accent:#8fb3dd;--accent-soft:#2b3a4c;--side:#201f1e;--sel:#2b3a4c;--note:#3d3820;--note-line:#7a6c2a;
+  --flag:#f0a050;--good:#6ccb5f;--bad:#f1707b;--code:#1b1a19;color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#12161c;--panel:#1b2129;--fg:#e6eaf0;--muted:#9aa5b5;--line:#2e3742;
-  --bar:#16263d;--bar-fg:#e6eaf0;--accent:#4ea1f3;--accent-soft:#1d3048;
-  --flag:#f0a050;--good:#4cc46a;--bad:#ff6b81;--code:#0f1318;color-scheme:dark}
+  --bg:#1b1a19;--panel:#252423;--fg:#f3f2f1;--muted:#c8c6c4;--line:#484644;
+  --bar:#1b1a19;--bar-fg:#f3f2f1;--accent:#8fb3dd;--accent-soft:#2b3a4c;--side:#201f1e;--sel:#2b3a4c;--note:#3d3820;--note-line:#7a6c2a;
+  --flag:#f0a050;--good:#6ccb5f;--bad:#f1707b;--code:#1b1a19;color-scheme:dark}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bar)}
@@ -92,6 +91,77 @@ ul.rules{padding-left:20px}ul.rules li{margin-bottom:4px}
 a.btn{display:inline-block;font-weight:600;padding:9px 18px;border-radius:4px;background:var(--accent);color:#fff;text-decoration:none;white-space:nowrap}
 a.btn:hover{filter:brightness(1.08)}
 .top a.nav{color:var(--bar-fg);font-size:14px;text-decoration:none;opacity:.9}.top a.nav:hover{opacity:1;text-decoration:underline}
+/* ===== exam console ===== */
+body{font-size:15px}
+h1,h2{color:var(--accent);font-weight:600}h1{font-size:28px}
+.card{border-radius:8px;border-color:var(--line)}
+button{border-radius:0;font-weight:600}button.pri{background:var(--accent);border-color:var(--accent)}
+:root[data-theme="dark"] button.pri,:root[data-theme="dark"] a.btn{color:#1b1a19}
+a.btn{border-radius:0}
+body.exam{background:var(--panel)}
+body.exam .top,body.exam .progress{display:none!important}
+body.exam main{max-width:none;margin:0 0 0 var(--sw);padding:16px 28px 96px}
+body.exam .foot{left:var(--sw);border-top:0;background:var(--panel);justify-content:flex-start;padding-left:28px}
+:root{--sw:0px}body.exam{--sw:240px}body.exam.mini{--sw:52px}
+#side{display:none}
+body.exam #side{display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;width:var(--sw);background:var(--side);border-right:1px solid var(--line);z-index:6;overflow:hidden}
+#side .sh{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;font-weight:600;font-size:14px}
+#side button{all:unset;box-sizing:border-box;display:flex;gap:14px;align-items:center;width:100%;padding:12px 16px;cursor:pointer;font-size:15px;font-weight:500;color:var(--fg);white-space:nowrap}
+#side button:hover{background:var(--line)}#side button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+#side .ic{flex:none;width:22px;text-align:center;font-size:18px}
+#side hr{border:0;border-top:1px solid var(--line);margin:4px 12px}
+#side #mini{width:auto;padding:4px 8px}
+body.mini #side .lb,body.mini #side .ttl{display:none}body.mini #side .sh{justify-content:center;padding:14px 0}
+.xh{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:end;margin-bottom:16px}
+.xh .xq{font-size:20px;font-weight:700;align-self:center}
+.xh .xp{justify-self:center;width:min(420px,100%);font-size:12px;color:var(--muted)}
+.xh .xp .lbl{text-align:center;letter-spacing:.04em;margin-bottom:4px}
+.xh .xp .trk{height:8px;border-radius:4px;background:var(--line);overflow:hidden}.xh .xp .trk i{display:block;height:100%;background:var(--accent)}
+.xh .xp .sm{display:flex;justify-content:space-between;margin-top:3px}
+.xh .xt{text-align:right;font-size:13px;letter-spacing:.04em;color:var(--fg)}
+.xh .xt b{display:block;font-size:26px;font-weight:400;letter-spacing:.06em;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1.1}
+.xh .xt b.low{color:var(--bad)}
+.qbox{border:1px solid var(--line);background:var(--panel);padding:22px 24px}
+.qbox .qtext{font-size:15px}
+.opt{border:0;padding:8px 4px;margin:0 0 4px;background:transparent;align-items:center;border-radius:2px}
+.opt:hover{background:var(--side)}.opt.sel{background:var(--sel)}
+.opt input{width:20px;height:20px;margin:0;accent-color:var(--accent)}
+.opt .lt{font-weight:600;min-width:20px}
+.opt.right{background:transparent;color:var(--good)}.opt.wrong{background:transparent;color:var(--bad)}
+.qtools{margin-top:18px;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+button.rst{background:#605e5c;color:#fff;border:0;border-radius:16px;padding:5px 14px;font-weight:500;font-size:14px}
+button.rst:hover{background:#484644}
+label.flag{font-weight:400}label.flag input{width:18px;height:18px;accent-color:var(--accent)}
+.foot button{min-width:192px;padding:9px 12px;border:1px solid var(--accent);color:var(--accent);background:var(--panel)}
+.foot button.pri{color:#fff;background:var(--accent)}
+.foot button:hover{filter:brightness(1.1)}
+.dd h3{font-size:15px;text-transform:none;letter-spacing:0;color:var(--fg);font-weight:600}
+.tok{border-color:var(--accent);border-radius:0;font-family:var(--font);font-size:14px}.tok::before{content:"\2807  ";color:var(--muted)}
+.tgt .drop,.slot{border-radius:0}.tgt .drop{font-family:var(--font);font-size:14px;background:var(--panel)}
+.ddarea{background:var(--side);padding:12px;min-height:120px}
+.note{background:var(--note);border:1px solid var(--note-line);padding:12px 16px;margin-bottom:16px;font-size:14px}
+.note b{display:block;margin-bottom:4px}.note ul{margin:0;padding-left:20px}
+.filt{display:flex;gap:18px;flex-wrap:wrap;align-items:center;padding:10px 12px;border:1px solid var(--line);border-bottom:0;background:var(--side);font-size:14px}
+.filt label{display:flex;gap:6px;align-items:center;cursor:pointer}.filt input{accent-color:var(--accent);width:16px;height:16px}
+table.rv{width:100%;border-collapse:collapse;font-size:14px}
+table.rv th,table.rv td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+table.rv th{font-weight:600;background:var(--panel)}table.rv td.c,table.rv th.c{text-align:center;width:110px}
+table.rv tr.row{cursor:pointer}table.rv tr.row:hover td{background:var(--sel)}
+table.rv .qt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+table.rv tr.row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.dlg{position:fixed;inset:0;background:rgba(0,0,0,.35);display:grid;place-items:center;z-index:20;padding:16px}
+.dlg>div{background:var(--panel);max-width:520px;padding:22px 24px;box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.dlg h2{color:var(--fg);font-size:17px}.dlg .grp{display:flex;gap:10px;margin-top:16px}
+.dlg button{min-width:110px;border:1px solid var(--accent);background:var(--accent);color:#fff;padding:6px 12px}
+@media (max-width:760px){
+  body.exam,body.exam.mini{--sw:0px}
+  body.exam #side{position:sticky;top:0;bottom:auto;width:auto;height:auto;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line)}
+  body.exam #side .sh,body.exam #side hr{display:none}
+  body.exam main{padding:12px 16px 96px}body.exam .foot{padding-left:16px}
+  .xh{grid-template-columns:1fr auto}.xh .xp{grid-column:1/-1;grid-row:2;justify-self:stretch;width:auto}
+  .foot .grp{flex:1;flex-wrap:nowrap}.foot button{min-width:0;flex:1;white-space:nowrap}
+}
+:root[data-theme="dark"] .foot button.pri,:root[data-theme="dark"] .dlg button{color:#1b1a19}
 </style>
 
 <div class="top" id="top">
@@ -99,6 +169,14 @@ a.btn:hover{filter:brightness(1.08)}
   <div class="tr"><div class="meta" id="meta"></div><a class="nav" href="/course">Course</a><button id="theme" class="thm" type="button" aria-label="Switch theme"></button></div>
 </div>
 <div class="progress" id="prog" hidden><i id="progi"></i></div>
+<aside id="side" aria-label="Toolbar">
+  <div class="sh"><span class="ttl">Toolbar</span><button id="mini" type="button" aria-label="Collapse toolbar" title="Collapse toolbar">&laquo;</button></div>
+  <button id="s-rev" type="button"><span class="ic">&#9776;</span><span class="lb">Review</span></button>
+  <hr>
+  <button id="s-thm" type="button"><span class="ic">&#9788;</span><span class="lb">Color Scheme</span></button>
+  <button id="s-help" type="button"><span class="ic">?</span><span class="lb">Help</span></button>
+  <button id="s-end" type="button"><span class="ic">&#9873;</span><span class="lb">End Exam</span></button>
+</aside>
 <main id="app"></main>
 <div class="foot" id="foot" hidden></div>
 
@@ -115,6 +193,7 @@ async function load(){
 }
 
 function home(){
+  document.body.classList.remove('exam');S=null;
   clearInterval(tick);$('#meta').innerHTML='';$('#foot').hidden=true;$('#prog').hidden=true;
   const d1=BANK.filter(q=>q.d===1).length,d2=BANK.length-d1;
   const types={single:'Multiple choice',multi:'Multiple response',yesno:'Yes / No series',drag:'Drag and drop / code completion'};
@@ -134,7 +213,7 @@ function home(){
   <li>When time runs out, the exam ends and is scored automatically.</li></ul>
   <label class="flag" style="margin:16px 0"><input type="checkbox" id="agree"> I understand this is an unofficial practice test, not affiliated with Microsoft, and contains no real exam content.</label>
   <button class="pri" id="start" disabled>Start exam</button></div>
-  <div class="card cta"><div class="row"><div><span class="badge" style="color:var(--accent)">COMING SOON</span><h2 style="margin:8px 0 4px">AI-901 prep course: 8 one-hour sessions</h2><p class="muted" style="margin:0">Every official skill from the April 2026 outline, with hands-on Microsoft Foundry labs and a full mock exam.</p></div><a class="btn" href="/course">See the course</a></div></div>
+  <div class="card cta"><div class="row"><div><span class="badge" style="color:var(--accent)">COMING SOON</span><h2 style="margin:8px 0 4px">AI-901 prep course: 8 one-hour sessions</h2><p class="muted" style="margin:0">Every official skill from the April 2026 outline, with hands-on Microsoft Foundry labs and a full mock exam. Includes links to the free <a href="/course#official" style="color:var(--accent)">official Microsoft Learn content</a>.</p></div><a class="btn" href="/course">See the course</a></div></div>
   <div class="card"><h2>Question bank</h2>
   <p class="muted">Identify AI concepts and capabilities: ${d1} · Implement AI solutions with Microsoft Foundry: ${d2}</p>
   <div class="grid">${Object.entries(types).map(([k,v])=>`<div class="cell"><span>${v}</span><b>${counts[k]||0}</b></div>`).join('')}</div></div></div>`;
@@ -150,7 +229,7 @@ function start(){
   set=set.sort((a,b)=>a.d-b.d);
   S={qs:set.map(q=>({q,ans:null,flag:false})),i:0,end:Date.now()+EXAM_MIN*60000,done:false};
   clearInterval(tick);tick=setInterval(timer,1000);timer();
-  $('#prog').hidden=false;show();
+  document.body.classList.add('exam');$('#prog').hidden=false;show();
 }
 
 function timer(){
@@ -159,6 +238,10 @@ function timer(){
   const ans=S.qs.filter(x=>answered(x)).length;
   $('#meta').innerHTML=`<span>Question ${S.i+1} of ${S.qs.length}</span><span>Answered ${ans}</span><span class="timer ${left<300000?'low':''}" aria-label="Time remaining">${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}</span>`;
   $('#progi').style.width=((S.i+1)/S.qs.length*100)+'%';
+  const xh=$('#xh');if(xh){const p=Math.round(ans/S.qs.length*100);
+    xh.innerHTML=`<div class="xq">${S.view==='review'?'Question Review':'Question '+(S.i+1)}</div>
+    <div class="xp"><div class="lbl">PROGRESS</div><div class="trk"><i style="width:${p}%"></i></div><div class="sm"><span>Answered ${ans}/${S.qs.length}</span><span>${S.qs.filter(x=>x.flag).length} for review</span></div></div>
+    <div class="xt">TIME REMAINING<b class="${left<300000?'low':''}" aria-label="Time remaining">${String(Math.floor(m/60)).padStart(2,'0')} : ${String(m%60).padStart(2,'0')} : ${String(s).padStart(2,'0')}</b></div>`}
   if(left<=0)finish();
 }
 
@@ -178,32 +261,32 @@ function blankAns(q){
 }
 
 function show(){
-  picked=null;const x=S.qs[S.i],q=x.q;if(!x.ans)x.ans=blankAns(q);
+  closeDlg();S.view='q';picked=null;const x=S.qs[S.i],q=x.q;if(!x.ans)x.ans=blankAns(q);
   const dom=q.d===1?'Identify AI concepts and capabilities':'Implement AI solutions by using Microsoft Foundry';
   let body='';
   if(q.t==='single'||q.t==='multi'){
     const multi=q.t==='multi';
-    body=(multi?`<p class="hint" style="margin-top:-8px">Select ${q.n} answers.</p>`:'')+q.o.map((o,k)=>`<label class="opt ${x.ans.includes(k)?'sel':''}"><input type="${multi?'checkbox':'radio'}" name="o" id="o${k}" value="${k}" ${x.ans.includes(k)?'checked':''}><span>${esc(o)}</span></label>`).join('');
+    body=(multi?`<p class="hint" style="margin-top:-8px">Select ${q.n} answers.</p>`:'')+q.o.map((o,k)=>`<label class="opt ${x.ans.includes(k)?'sel':''}"><input type="${multi?'checkbox':'radio'}" name="o" id="o${k}" value="${k}" ${x.ans.includes(k)?'checked':''}><span class="lt">${'ABCDEFGH'[k]}.</span><span>${esc(o)}</span></label>`).join('');
   } else if(q.t==='yesno'){
     body=`<div style="overflow-x:auto"><table class="yn"><tr><th>Statement</th><th class="c">Yes</th><th class="c">No</th></tr>${q.st.map((s,k)=>`<tr><td>${esc(s[0])}</td><td class="c"><input type="radio" name="y${k}" id="y${k}y" data-k="${k}" data-v="1" ${x.ans[k]===true?'checked':''} aria-label="Yes"></td><td class="c"><input type="radio" name="y${k}" id="y${k}n" data-k="${k}" data-v="0" ${x.ans[k]===false?'checked':''} aria-label="No"></td></tr>`).join('')}</table></div>`;
   } else if(q.t==='drag'){
-    const pool=`<h3>${q.code?'Code segments':'Actions / values'}</h3>${q.tk.map((t,k)=>`<div class="tok" draggable="true" tabindex="0" data-t="${k}">${esc(t)}</div>`).join('')}`;
+    const pool=`<h3>${q.code?'Code segments':'Actions'}</h3>${q.tk.map((t,k)=>`<div class="tok" draggable="true" tabindex="0" data-t="${k}">${esc(t)}</div>`).join('')}`;
     if(q.code){
       let c=esc(q.code).replace(/\[(\d)\]/g,(m,n)=>{const i=+n-1,v=x.ans[i];return `<span class="slot ${v!=null?'filled':''}" tabindex="0" data-b="${i}">${v!=null?esc(q.tk[v]):q.bl[i]}</span>`});
       body=`<pre class="code">${c}</pre><div class="dd"><div>${pool}</div><div><h3>How to answer</h3><p class="muted" style="font-size:14px">Drag a segment onto a box in the code, or click a segment and then click a box. Click a filled box to clear it. Each segment may be used once, more than once, or not at all.</p></div></div>`;
     } else {
-      body=`<div class="dd"><div>${pool}</div><div><h3>Answer area</h3>${q.bl.map((b,i)=>{const v=x.ans[i];return `<div class="tgt"><span>${esc(b)}</span><div class="drop ${v!=null?'filled':''}" tabindex="0" data-b="${i}">${v!=null?esc(q.tk[v]):'&nbsp;'}</div></div>`}).join('')}</div></div><p class="hint">Drag, or click an item then click a box. Click a filled box to clear it.</p>`;
+      body=`<div class="dd"><div>${pool}</div><div><h3>Answer Area</h3><div class="ddarea">${q.bl.map((b,i)=>{const v=x.ans[i];return `<div class="tgt"><span>${esc(b)}</span><div class="drop ${v!=null?'filled':''}" tabindex="0" data-b="${i}">${v!=null?esc(q.tk[v]):'&nbsp;'}</div></div>`}).join('')}</div></div></div><p class="hint">Drag, or click an item then click a box. Click a filled box to clear it.</p>`;
     }
   }
-  $('#app').innerHTML=`<div class="card"><div class="qhead"><span>${dom}</span><span>${({single:'Multiple choice',multi:'Multiple response',yesno:'Yes / No',drag:'Drag and drop'})[q.t]}</span></div><p class="qtext">${esc(q.q)}</p>${body}</div>`;
+  $('#app').innerHTML=`<div id="xh" class="xh"></div><div class="qbox"><div class="qhead"><span>${dom}</span><span>${({single:'Multiple choice',multi:'Multiple response',yesno:'Yes / No',drag:'Drag and drop'})[q.t]}</span></div><p class="qtext">${esc(q.q)}</p>${body}
+  <div class="qtools"><button class="rst" id="rst" type="button">&#8634; Reset Answer</button><label class="flag"><input type="checkbox" id="flg" ${x.flag?'checked':''}> Review later</label></div></div>`;
   wire(x,q);
   $('#foot').hidden=false;
-  $('#foot').innerHTML=`<label class="flag"><input type="checkbox" id="flg" ${x.flag?'checked':''}> Review later</label>
-   <div class="grp"><button id="prev" ${S.i===0?'disabled':''}>Previous</button><button id="next" class="pri">${S.i===S.qs.length-1?'Review':'Next'}</button><button id="rev">Review screen</button></div>`;
-  $('#flg').onchange=e=>{x.flag=e.target.checked};
+  $('#foot').innerHTML=`<div class="grp"><button id="prev" ${S.i===0?'disabled':''}>&lsaquo;&nbsp; Previous</button><button id="next" class="pri">${S.i===S.qs.length-1?'Review':'Next'} &nbsp;&rsaquo;</button></div>`;
+  $('#flg').onchange=e=>{x.flag=e.target.checked;timer()};
+  $('#rst').onclick=()=>{x.ans=blankAns(q);show()};
   $('#prev').onclick=()=>{S.i--;show();timer()};
-  $('#next').onclick=()=>{if(S.i===S.qs.length-1)review();else{S.i++;show();timer()}};
-  $('#rev').onclick=review;
+  $('#next').onclick=()=>{if(S.i===S.qs.length-1)toReview();else{S.i++;show();timer()}};
   window.scrollTo(0,0);timer();
 }
 
@@ -235,23 +318,49 @@ function wire(x,q){
   }
 }
 
+function toReview(){
+  const x=S.qs[S.i];if(S.view==='q'&&!answered(x)){dlg('Incomplete Question Warning','You have not selected an answer for this question or have not selected enough answers. Select OK to proceed to the review screen although this question is incomplete. Select Cancel to remain on the question.',[['Cancel',closeDlg],['OK',()=>{closeDlg();review()}]]);return}
+  review();
+}
 function review(){
-  $('#meta').querySelector('span')&&timer();
-  const list=S.qs.map((x,i)=>({x,i})).filter(({x})=>reviewFilter==='all'||(reviewFilter==='un'&&!answered(x))||(reviewFilter==='fl'&&x.flag));
-  const un=S.qs.filter(x=>!answered(x)).length,fl=S.qs.filter(x=>x.flag).length;
-  $('#app').innerHTML=`<div class="card"><h1>Review your answers</h1>
-  <p class="muted">${un} unanswered · ${fl} marked for review. Select a question to return to it. Unanswered questions are scored as incorrect.</p>
-  <div class="tabs"><button data-f="all" class="${reviewFilter==='all'?'on':''}">All (${S.qs.length})</button><button data-f="un" class="${reviewFilter==='un'?'on':''}">Unanswered (${un})</button><button data-f="fl" class="${reviewFilter==='fl'?'on':''}">Review later (${fl})</button></div>
-  <div class="grid">${list.map(({x,i})=>`<div class="cell ${answered(x)?'':'un'} ${x.flag?'fl':''}" tabindex="0" data-i="${i}"><span>Question ${i+1}</span><span>${x.flag?'<span class="f">⚑</span> ':''}${answered(x)?'Answered':'Incomplete'}</span></div>`).join('')||'<p class="muted">No questions match this filter.</p>'}</div></div>`;
-  document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{reviewFilter=b.dataset.f;review()});
-  document.querySelectorAll('.cell[data-i]').forEach(c=>{c.onclick=()=>{S.i=+c.dataset.i;show()};c.onkeydown=e=>{if(e.key==='Enter')c.click()}});
+  closeDlg();S.view='review';
+  const has=f=>S.qs.filter(f).length,an=has(answered),un=S.qs.length-an,fl=has(x=>x.flag);
+  const list=S.qs.map((x,i)=>({x,i})).filter(({x})=>reviewFilter==='all'||(reviewFilter==='an'&&answered(x))||(reviewFilter==='un'&&!answered(x))||(reviewFilter==='fl'&&x.flag));
+  const ck=v=>v?'&#10004;':'';
+  const opt=(k,l,n)=>`<label><input type="radio" name="rf" value="${k}" ${reviewFilter===k?'checked':''} ${n?'':'disabled'}> ${l} (${n})</label>`;
+  $('#app').innerHTML=`<div id="xh" class="xh"></div>
+  <div class="note"><b>Review Screen Instructions</b><ul><li>Below is a table showing all questions.</li><li>Select a question to return to it. Unanswered questions are scored as incorrect.</li><li>Select <b style="display:inline">Finish Exam</b> when you are ready. You can't change answers afterwards.</li></ul></div>
+  <div class="filt"><span>Filter By:</span>${opt('all','All',S.qs.length)}${opt('an','Answered',an)}${opt('un','Unanswered',un)}${opt('fl','For Review',fl)}</div>
+  <div style="overflow-x:auto"><table class="rv"><tr><th style="width:40px"></th><th>Question</th><th class="c">Answered</th><th class="c">Unanswered</th><th class="c">For Review</th></tr>
+  ${list.map(({x,i})=>`<tr class="row" tabindex="0" data-i="${i}"><td>${i+1}</td><td><span class="qt">${esc(x.q.q)}</span></td><td class="c">${ck(answered(x))}</td><td class="c">${ck(!answered(x))}</td><td class="c">${ck(x.flag)}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">No questions match this filter.</td></tr>'}</table></div>`;
+  document.querySelectorAll('input[name=rf]').forEach(r=>r.onchange=()=>{reviewFilter=r.value;review()});
+  document.querySelectorAll('tr.row').forEach(c=>{c.onclick=()=>{S.i=+c.dataset.i;show()};c.onkeydown=e=>{if(e.key==='Enter')c.click()}});
   $('#foot').hidden=false;
-  $('#foot').innerHTML=`<span class="muted" id="confirm">Finish only when you are ready. You can't change answers afterwards.</span><div class="grp"><button id="back">Return to question ${S.i+1}</button><button class="pri" id="fin">Finish exam</button></div>`;
+  $('#foot').innerHTML=`<div class="grp"><button id="back">&lsaquo;&nbsp; Return to Question ${S.i+1}</button><button class="pri" id="fin">Finish Exam &nbsp;&#8677;</button></div>`;
   $('#back').onclick=show;
-  $('#fin').onclick=()=>{
-    if($('#fin').dataset.c){finish();return}
-    $('#fin').dataset.c=1;$('#fin').textContent='Confirm finish';$('#confirm').textContent=un?`You still have ${un} unanswered. Select Confirm finish to end the exam.`:'Select Confirm finish to end the exam.';
-  };
+  $('#fin').onclick=endExam;
+  timer();
+}
+function endExam(){
+  const un=S.qs.filter(x=>!answered(x)).length;
+  dlg('End Exam',(un?`You have ${un} unanswered question${un>1?'s':''}. `:'')+'After you finish, you cannot return to the exam. Do you want to finish now?',[['Cancel',closeDlg],['Finish Exam',finish]]);
+}
+function dlg(t,msg,btns){
+  closeDlg();const d=document.createElement('div');d.className='dlg';d.id='dlg';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');
+  d.innerHTML=`<div><h2>${t}</h2><p style="margin:0">${msg}</p><div class="grp">${btns.map((b,i)=>`<button data-k="${i}">${b[0]}</button>`).join('')}</div></div>`;
+  document.body.appendChild(d);d.querySelectorAll('button').forEach(b=>b.onclick=btns[+b.dataset.k][1]);d.querySelector('button').focus();
+  d.onkeydown=e=>{if(e.key==='Escape')closeDlg()};
+}
+function closeDlg(){const d=$('#dlg');d&&d.remove()}
+function sideWire(){
+  let mini=false;try{mini=localStorage.getItem('mini')==='1'}catch(e){}
+  document.body.classList.toggle('mini',mini);
+  $('#mini').onclick=()=>{const m=document.body.classList.toggle('mini');$('#mini').innerHTML=m?'&raquo;':'&laquo;';try{localStorage.setItem('mini',m?'1':'0')}catch(e){}};
+  $('#mini').innerHTML=mini?'&raquo;':'&laquo;';
+  $('#s-rev').onclick=()=>S&&!S.done&&toReview();
+  $('#s-thm').onclick=()=>$('#theme').click();
+  $('#s-end').onclick=()=>S&&!S.done&&endExam();
+  $('#s-help').onclick=()=>dlg('Help','Select an answer, then use Next and Previous to move. Tick Review later to flag a question. Drag-and-drop: drag an item onto a box, or click an item and then a box; click a filled box to clear it. Open Review from the toolbar to see every question, and End Exam to score.',[['OK',closeDlg]]);
 }
 
 function correct(x){
@@ -262,7 +371,7 @@ function correct(x){
 }
 
 function finish(){
-  S.done=true;clearInterval(tick);
+  S.done=true;clearInterval(tick);document.body.classList.remove('exam');closeDlg();
   const r=S.qs.map(correct),tot=r.filter(Boolean).length;
   const score=Math.round(tot/S.qs.length*1000),ok=score>=PASS;
   const dom=d=>{const idx=S.qs.map((x,i)=>i).filter(i=>S.qs[i].q.d===d);const c=idx.filter(i=>r[i]).length;return{c,n:idx.length,p:idx.length?Math.round(c/idx.length*100):0}};
@@ -300,7 +409,7 @@ function reviewItem(x,i,ok){
   apply(t||sys());
   btn.onclick=()=>{const v=root.dataset.theme==='dark'?'light':'dark';apply(v);try{localStorage.setItem('theme',v)}catch(e){}};
 })();
-load();
+sideWire();load();
 </script>
 
 </html>
